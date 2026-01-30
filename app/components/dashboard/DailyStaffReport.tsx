@@ -11,13 +11,6 @@ export default function DailyStaffReport() {
             issues: ['Leaky faucet in the kitchen sink.', 'Main door lock is loose.'],
             description: 'Both issues were addressed. Replaced the washer in the faucet and tightened the screws on the door lock. Tested both and they are working correctly.',
             hasImage: true
-        },
-        {
-            id: '#1023',
-            date: 'Oct 26,2025',
-            issues: ['Leaky faucet in the kitchen sink.', 'Main door lock is loose.'],
-            description: 'Both issues were addressed. Replaced the washer in the faucet and tightened the screws on the door lock. Tested both and they are working correctly.',
-            hasImage: true
         }
     ];
 
@@ -27,16 +20,18 @@ export default function DailyStaffReport() {
             {/* Filters */}
             <div className="flex space-x-4">
                 <div className="relative">
-                    <button className="bg-zinc-200/50 hover:bg-zinc-200 px-4 py-2 rounded-lg text-sm font-semibold text-zinc-900 flex items-center space-x-2 transition-colors">
-                        <span>Status</span>
-                        <ChevronDown className="w-4 h-4" />
-                    </button>
+                    <select className="bg-zinc-200/50 hover:bg-zinc-200 px-4 py-2 rounded-lg text-sm font-semibold text-zinc-900 outline-none cursor-pointer transition-colors">
+                        <option>Status</option>
+                        <option>All</option>
+                        <option>Resolved</option>
+                        <option>Pending</option>
+                    </select>
                 </div>
                 <div className="relative">
-                    <button className="bg-zinc-200/50 hover:bg-zinc-200 px-4 py-2 rounded-lg text-sm font-semibold text-zinc-900 flex items-center space-x-2 transition-colors">
-                        <span>Date Range</span>
-                        <ChevronDown className="w-4 h-4" />
-                    </button>
+                    <input
+                        type="date"
+                        className="bg-zinc-200/50 hover:bg-zinc-200 px-4 py-2 rounded-lg text-sm font-semibold text-zinc-900 outline-none cursor-pointer transition-colors"
+                    />
                 </div>
             </div>
 
@@ -73,7 +68,7 @@ export default function DailyStaffReport() {
                                     {/* Icon */}
                                     <div className="w-16 h-16 bg-white/80 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg mb-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                         </svg>
                                     </div>
 

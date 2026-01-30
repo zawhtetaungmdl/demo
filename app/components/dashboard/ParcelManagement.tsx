@@ -15,11 +15,11 @@ export default function ParcelManagement() {
     });
 
     const parcels = [
-        { resident: 'Robert Fox', room: 'A-101', tracking: '1ZALAZA123456789', received: '2026-1-20', status: 'Received' },
-        { resident: 'Robert Fox', room: 'A-101', tracking: '1ZALAZA123456789', received: '2026-1-20', status: 'Received' },
-        { resident: 'Robert Fox', room: 'A-101', tracking: '1ZALAZA123456789', received: '2026-1-20', status: 'Received' },
-        { resident: 'Robert Fox', room: 'A-101', tracking: '1ZALAZA123456789', received: '2026-1-20', status: 'Pick up' },
-        { resident: 'Robert Fox', room: 'A-101', tracking: '1ZALAZA123456789', received: '2026-1-20', status: 'Received' },
+        { resident: 'Robert Fox', room: '101', tracking: '1ZALAZA123456789', received: '2026-1-20', status: 'Received', building: 'Building A' },
+        { resident: 'Sarah Wilson', room: '205', tracking: '2XBLBXB987654321', received: '2026-1-22', status: 'Received', building: 'Building B' },
+        { resident: 'John Doe', room: '310', tracking: '3CCMCXC456123789', received: '2026-1-23', status: 'pickup', building: 'Building C' },
+        { resident: 'Emily Davis', room: '402', tracking: '4DDMDXD321654987', received: '2026-1-25', status: 'Received', building: 'Building D' },
+        { resident: 'Robert Fox', room: '101', tracking: '1ZALAZA123456789', received: '2026-1-20', status: 'Received', building: 'Building A' },
     ];
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,22 +60,28 @@ export default function ParcelManagement() {
                         />
                     </div>
 
-                    {/* Add Parcel Button - Replaces Filter */}
-                    <button
-                        onClick={() => setShowModal(true)}
-                        className="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-200 hover:scale-105"
-                    >
-                        <Plus className="w-5 h-5" />
-                        <span className="font-medium">Add Parcel</span>
-                    </button>
+                    <div className="flex items-center space-x-3">
+                        <button
+                            className="flex items-center space-x-2 bg-zinc-100 text-zinc-700 px-6 py-3 rounded-lg hover:bg-zinc-200 transition-all font-medium border border-zinc-200"
+                        >
+                            <span>Search</span>
+                        </button>
+
+                        <button
+                            onClick={() => setShowModal(true)}
+                            className="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-200 hover:scale-105"
+                        >
+                            <Plus className="w-5 h-5" />
+                            <span className="font-medium">Add Parcel</span>
+                        </button>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
                     <div className="space-y-1.5">
                         <label className="text-sm font-medium text-zinc-600">Date Range</label>
                         <div className="relative">
-                            <input type="text" placeholder="mm/dd/yyyy" className="w-full bg-zinc-200/50 px-4 py-2.5 rounded-lg outline-none text-zinc-800" />
-                            <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                            <input type="date" className="w-full bg-zinc-200/50 px-4 py-2.5 rounded-lg outline-none text-zinc-800" />
                         </div>
                     </div>
 
@@ -83,7 +89,9 @@ export default function ParcelManagement() {
                         <label className="text-sm font-medium text-zinc-600">Parcel status</label>
                         <div className="relative">
                             <select className="w-full bg-zinc-200/50 px-4 py-2.5 rounded-lg outline-none text-zinc-800 appearance-none cursor-pointer">
-                                <option>All Statuses</option>
+                                <option>All</option>
+                                <option>Received</option>
+                                <option>pickup</option>
                             </select>
                             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 pointer-events-none" />
                         </div>
@@ -93,7 +101,11 @@ export default function ParcelManagement() {
                         <label className="text-sm font-medium text-zinc-600">Building Number</label>
                         <div className="relative">
                             <select className="w-full bg-zinc-200/50 px-4 py-2.5 rounded-lg outline-none text-zinc-800 appearance-none cursor-pointer">
-                                <option>All Buildings</option>
+                                <option>All</option>
+                                <option>Building A</option>
+                                <option>Building B</option>
+                                <option>Building C</option>
+                                <option>Building D</option>
                             </select>
                             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 pointer-events-none" />
                         </div>
@@ -108,6 +120,7 @@ export default function ParcelManagement() {
                         <tr className="bg-zinc-100/80 border-b border-zinc-200">
                             <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Resident</th>
                             <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Room</th>
+                            <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Building</th>
                             <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Tracking</th>
                             <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Received</th>
                             <th className="text-right py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Status</th>
@@ -118,6 +131,7 @@ export default function ParcelManagement() {
                             <tr key={idx} className="hover:bg-zinc-50/50 transition-colors">
                                 <td className="py-4 px-6 text-sm text-zinc-900 font-medium">{parcel.resident}</td>
                                 <td className="py-4 px-6 text-sm text-zinc-600">{parcel.room}</td>
+                                <td className="py-4 px-6 text-sm text-zinc-600">{parcel.building}</td>
                                 <td className="py-4 px-6 text-sm text-zinc-600 font-mono">{parcel.tracking}</td>
                                 <td className="py-4 px-6 text-sm text-zinc-600">{parcel.received}</td>
                                 <td className="py-4 px-6 text-right">

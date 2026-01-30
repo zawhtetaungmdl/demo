@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Search, Plus, Upload, X, Calendar, Trash2, FileText } from 'lucide-react';
 
 type ModalType = 'new-payment' | 'confirm-payment' | 'delete-payment' | null;
-type PaymentStatus = 'Settled' | 'Pending' | 'Overdue';
+type PaymentStatus = 'Settled' | 'Overdue';
 
 interface Payment {
     id: number;
@@ -23,19 +23,17 @@ export default function Payment() {
 
     // Sample payment data
     const payments: Payment[] = [
-        { id: 101, unit: '101', resident: 'John Doe', type: 'Common Fee', dueDate: 'Oct 25, 2023', amount: '$4500.00', status: 'Settled' },
-        { id: 103, unit: '103', resident: 'Sarah Smith', type: 'Water Bill', dueDate: 'Oct 26, 2023', amount: '$320.00', status: 'Overdue', daysInfo: '365 days late' },
-        { id: 104, unit: '104', resident: 'Mike Johnson', type: 'Common Fee', dueDate: 'Oct 29, 2023', amount: '$4500.00', status: 'Overdue', daysInfo: '730 days late' },
-        { id: 105, unit: '105', resident: 'Emily Davis', type: 'Electric Bill', dueDate: 'Oct 27, 2023', amount: '$1250.00', status: 'Settled' },
-        { id: 106, unit: '106-01', resident: 'Robert Wilson', type: 'Facility Fee', dueDate: 'Nov 1, 2023', amount: '$10000.00', status: 'Overdue', daysInfo: '337 days late' },
+        { id: 101, unit: '00101', resident: 'John Doe', type: 'Room Fee', dueDate: 'Oct 25, 2023', amount: '$4500.00', status: 'Settled' },
+        { id: 103, unit: '00103', resident: 'Sarah Smith', type: 'Room Fee', dueDate: 'Oct 26, 2023', amount: '$320.00', status: 'Overdue', daysInfo: '365 days late' },
+        { id: 104, unit: '00104', resident: 'Mike Johnson', type: 'Room Fee', dueDate: 'Oct 29, 2023', amount: '$4500.00', status: 'Overdue', daysInfo: '730 days late' },
+        { id: 105, unit: '00105', resident: 'Emily Davis', type: 'Room Fee', dueDate: 'Oct 27, 2023', amount: '$1250.00', status: 'Settled' },
+        { id: 106, unit: '00106', resident: 'Robert Wilson', type: 'Room Fee', dueDate: 'Nov 1, 2023', amount: '$10000.00', status: 'Overdue', daysInfo: '337 days late' },
     ];
 
     const getStatusColor = (status: PaymentStatus) => {
         switch (status) {
             case 'Settled':
                 return 'bg-green-100 text-green-700';
-            case 'Pending':
-                return 'bg-yellow-100 text-yellow-700';
             case 'Overdue':
                 return 'bg-red-100 text-red-700';
             default:
@@ -81,15 +79,7 @@ export default function Payment() {
                         <select className="px-3 py-2 bg-white border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option>All Status</option>
                             <option>Settled</option>
-                            <option>Pending</option>
                             <option>Overdue</option>
-                        </select>
-                        <select className="px-3 py-2 bg-white border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option>All Types</option>
-                            <option>Common Fee</option>
-                            <option>Water Bill</option>
-                            <option>Electric Bill</option>
-                            <option>Facility Fee</option>
                         </select>
                     </div>
                 </div>
@@ -112,7 +102,7 @@ export default function Payment() {
                             {payments.map((payment) => (
                                 <tr key={payment.id} className="hover:bg-zinc-50 transition-colors">
                                     <td className="py-3 px-4">
-                                        <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">
+                                        <div className="px-2 py-1 bg-gradient-to-br from-blue-500 to-indigo-600 rounded flex items-center justify-center text-white font-mono text-[10px] w-14">
                                             {payment.unit}
                                         </div>
                                     </td>
@@ -139,27 +129,15 @@ export default function Payment() {
                                         </span>
                                     </td>
                                     <td className="py-3 px-4">
-                                        <div className="flex items-center justify-center gap-2">
-                                            {payment.status !== 'Settled' && (
-                                                <button
-                                                    onClick={() => {
-                                                        setSelectedPayment(payment);
-                                                        setActiveModal('confirm-payment');
-                                                    }}
-                                                    className="px-3 py-1.5 bg-blue-500 text-white rounded-md text-xs font-semibold hover:bg-blue-600 transition-colors"
-                                                >
-                                                    Confirm
-                                                </button>
-                                            )}
+                                        <div className="flex items-center justify-center">
                                             <button
                                                 onClick={() => {
                                                     setSelectedPayment(payment);
-                                                    setActiveModal('delete-payment');
+                                                    setActiveModal(payment.status === 'Settled' ? 'delete-payment' : 'confirm-payment');
                                                 }}
-                                                className="p-1.5 text-red-600 hover:bg-red-50 rounded-md transition-colors"
-                                                title="Delete payment"
+                                                className="px-4 py-1.5 bg-zinc-100 text-zinc-700 rounded-md text-xs font-semibold hover:bg-zinc-200 transition-colors border border-zinc-200"
                                             >
-                                                <Trash2 className="w-4 h-4" />
+                                                Manage
                                             </button>
                                         </div>
                                     </td>
@@ -193,11 +171,7 @@ export default function Payment() {
                             <div>
                                 <label className="block text-xs font-semibold text-zinc-700 mb-1">Select a payment type</label>
                                 <select className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <option>Select payment type</option>
-                                    <option>Common Fee</option>
-                                    <option>Water Bill</option>
-                                    <option>Electric Bill</option>
-                                    <option>Facility Fee</option>
+                                    <option>Room Fee</option>
                                 </select>
                             </div>
                             <div className="grid grid-cols-2 gap-3">
@@ -223,7 +197,6 @@ export default function Payment() {
                                 <select className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                                     <option>Select status</option>
                                     <option>Settled</option>
-                                    <option>Pending</option>
                                     <option>Overdue</option>
                                 </select>
                             </div>

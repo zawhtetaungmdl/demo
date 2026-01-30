@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, Plus, X, AlertCircle, Clock, CheckCircle, Wrench, Zap, Shield, Wind, Settings2 } from 'lucide-react';
+import { Search, Plus, X, AlertCircle, Clock, CheckCircle, Wrench, Zap, Shield, Wind, Settings2, Upload } from 'lucide-react';
 
 type ModalType = 'new-request' | 'update-status' | null;
 type RequestStatus = 'New' | 'In Progress' | 'Resolved';
@@ -25,6 +25,7 @@ export default function ServiceRequests() {
     const [selectedRequest, setSelectedRequest] = useState<ServiceRequest | null>(null);
     const [statusFilter, setStatusFilter] = useState<string>('All Status');
     const [categoryFilter, setCategoryFilter] = useState<string>('All Categories');
+    const [uploadedImage, setUploadedImage] = useState<File | null>(null);
 
     // Sample service requests data
     const [requests] = useState<ServiceRequest[]>([
@@ -77,6 +78,14 @@ export default function ServiceRequests() {
     const closeModal = () => {
         setActiveModal(null);
         setSelectedRequest(null);
+        setUploadedImage(null);
+    };
+
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setUploadedImage(file);
+        }
     };
 
     // Filter requests
@@ -308,6 +317,28 @@ export default function ServiceRequests() {
                                     placeholder="Describe the issue..."
                                     className="w-full px-3 py-2 bg-white border border-zinc-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                                 />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-semibold text-zinc-700 mb-1.5">Issue Image (Optional)</label>
+                                <div className="border-2 border-dashed border-zinc-200 rounded-lg p-6 text-center hover:border-blue-400 transition-colors cursor-pointer bg-zinc-50 relative">
+                                    <input
+                                        type="file"
+                                        id="issue-image"
+                                        accept="image/*"
+                                        onChange={handleImageUpload}
+                                        className="hidden"
+                                    />
+                                    <label htmlFor="issue-image" className="cursor-pointer block">
+                                        <Upload className="w-8 h-8 text-zinc-400 mx-auto mb-2" />
+                                        <p className="text-zinc-600 text-sm font-medium">Upload issue image</p>
+                                        <p className="text-xs text-zinc-400 mt-1">PNG, JPG up to 5MB</p>
+                                        {uploadedImage && (
+                                            <div className="mt-2 p-2 bg-blue-50 rounded-md border border-blue-100">
+                                                <p className="text-xs text-blue-600 font-medium truncate">{uploadedImage.name}</p>
+                                            </div>
+                                        )}
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div className="p-4 border-t border-zinc-200 flex gap-3">

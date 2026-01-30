@@ -113,28 +113,9 @@ export default function Properties() {
                     </button>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="flex justify-end space-x-3 mb-6">
-                    <button className="px-4 py-2 bg-zinc-200 text-zinc-700 rounded-lg text-sm font-medium hover:bg-zinc-300 transition-colors">
-                        Delete
-                    </button>
-                    <button
-                        onClick={() => setActiveModal(activeView === 'condo' ? 'edit-unit' : 'edit-owner')}
-                        className="px-4 py-2 bg-zinc-200 text-zinc-700 rounded-lg text-sm font-medium hover:bg-zinc-300 transition-colors"
-                    >
-                        Edit
-                    </button>
-                    <button
-                        onClick={() => setActiveModal(activeView === 'condo' ? 'add-unit' : 'add-owner')}
-                        className="px-4 py-2 bg-zinc-200 text-zinc-700 rounded-lg text-sm font-medium hover:bg-zinc-300 transition-colors"
-                    >
-                        {activeView === 'condo' ? 'Add New Unit' : 'Add Rent Owner'}
-                    </button>
-                </div>
-
                 {/* Search and Filters */}
-                <div className="flex flex-col md:flex-row gap-4 mb-6">
-                    <div className="flex-1 relative">
+                <div className="flex flex-col md:flex-row gap-4 mb-6 items-center">
+                    <div className="flex-1 relative w-full">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
                         <input
                             type="text"
@@ -142,16 +123,29 @@ export default function Properties() {
                             className="w-full pl-10 pr-4 py-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-                    <select className="px-4 py-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option>All Buildings</option>
-                        <option>Building A</option>
-                        <option>Building B</option>
-                    </select>
-                    <select className="px-4 py-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option>Second Floor</option>
-                        <option>First Floor</option>
-                        <option>Third Floor</option>
-                    </select>
+                    <div className="flex gap-4 w-full md:w-auto">
+                        <select className="flex-1 md:w-40 px-4 py-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option>All Buildings</option>
+                            <option>Building A</option>
+                            <option>Building B</option>
+                            <option>Building C</option>
+                            <option>Building E</option>
+                        </select>
+                        <select className="flex-1 md:w-40 px-4 py-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option>All Floor</option>
+                            <option>Basement</option>
+                            <option>1st Floor</option>
+                            <option>2nd Floor</option>
+                            <option>3rd Floor</option>
+                        </select>
+                        <button
+                            onClick={() => setActiveModal(activeView === 'condo' ? 'add-unit' : 'add-owner')}
+                            className="px-6 py-2.5 bg-zinc-900 text-white rounded-lg text-sm font-bold hover:bg-zinc-800 transition-all flex items-center gap-2"
+                        >
+                            <Plus className="w-4 h-4" />
+                            <span>{activeView === 'condo' ? 'Add New Unit' : 'Add Rent Owner'}</span>
+                        </button>
+                    </div>
                 </div>
 
                 {/* Table */}
@@ -173,7 +167,7 @@ export default function Properties() {
                         </thead>
                         <tbody>
                             {currentUnits.map((unit, idx) => (
-                                <tr key={idx} className="border-b border-zinc-100 hover:bg-zinc-50 transition-colors">
+                                <tr key={idx} className="border-b border-zinc-100 hover:bg-zinc-50 transition-colors group">
                                     <td className="py-3 px-4 text-sm text-zinc-900">{unit.no}</td>
                                     <td className="py-3 px-4 text-sm text-zinc-900">{activeView === 'condo' ? unit.ownerName : unit.tenantName}</td>
                                     <td className="py-3 px-4 text-sm text-zinc-900">{unit.roomNo}</td>
@@ -181,7 +175,22 @@ export default function Properties() {
                                     <td className="py-3 px-4 text-sm text-zinc-900">{unit.buildingNo}</td>
                                     <td className="py-3 px-4 text-sm text-zinc-900">{unit.floorNo}</td>
                                     <td className="py-3 px-4 text-sm text-zinc-900">{unit.price}</td>
-                                    <td className="py-3 px-4 text-sm text-zinc-900">{unit.phoneNo}</td>
+                                    <td className="py-3 px-4 text-sm text-zinc-900">
+                                        <div className="flex items-center justify-between">
+                                            <span>{unit.phoneNo}</span>
+                                            <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button
+                                                    onClick={() => setActiveModal(activeView === 'condo' ? 'edit-unit' : 'edit-owner')}
+                                                    className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                                                >
+                                                    <Edit2 className="w-4 h-4" />
+                                                </button>
+                                                <button className="p-1 text-red-600 hover:bg-red-50 rounded">
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -194,8 +203,8 @@ export default function Properties() {
                         onClick={handlePrevious}
                         disabled={currentPage === 1}
                         className={`p-2 rounded-lg transition-colors ${currentPage === 1
-                                ? 'text-zinc-300 cursor-not-allowed'
-                                : 'hover:bg-zinc-100 text-zinc-600'
+                            ? 'text-zinc-300 cursor-not-allowed'
+                            : 'hover:bg-zinc-100 text-zinc-600'
                             }`}
                     >
                         <ChevronLeft className="w-4 h-4" />
@@ -205,8 +214,8 @@ export default function Properties() {
                             key={page}
                             onClick={() => handlePageChange(page)}
                             className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${currentPage === page
-                                    ? 'bg-blue-500 text-white'
-                                    : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200'
+                                ? 'bg-blue-500 text-white'
+                                : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200'
                                 }`}
                         >
                             {page}
@@ -216,8 +225,8 @@ export default function Properties() {
                         onClick={handleNext}
                         disabled={currentPage === totalPages}
                         className={`p-2 rounded-lg transition-colors ${currentPage === totalPages
-                                ? 'text-zinc-300 cursor-not-allowed'
-                                : 'hover:bg-zinc-100 text-zinc-600'
+                            ? 'text-zinc-300 cursor-not-allowed'
+                            : 'hover:bg-zinc-100 text-zinc-600'
                             }`}
                     >
                         <ChevronRight className="w-4 h-4" />

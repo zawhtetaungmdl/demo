@@ -197,15 +197,21 @@ export default function Department() {
                         />
                     </div>
                     <button
+                        className="px-6 py-3 bg-zinc-100 text-zinc-700 rounded-xl font-medium border border-zinc-200 hover:bg-zinc-200 transition-all duration-200 flex items-center justify-center space-x-2"
+                    >
+                        <Search className="w-5 h-5" />
+                        <span>Search</span>
+                    </button>
+                    <button
                         onClick={() => setActiveModal('confirm')}
-                        className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-medium hover:shadow-lg hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2"
+                        className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2"
                     >
                         <Clock className="w-5 h-5" />
-                        <span>Confirm Availability</span>
+                        <span>Confirm</span>
                     </button>
                     <button
                         onClick={() => setActiveModal('add')}
-                        className="px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl font-medium hover:shadow-lg hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2"
+                        className="px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2"
                     >
                         <Plus className="w-5 h-5" />
                         <span>Add Staff</span>
@@ -249,6 +255,13 @@ export default function Department() {
                                                 title="Edit"
                                             >
                                                 <Edit2 className="w-4 h-4" />
+                                            </button>
+                                            <button
+                                                onClick={() => handleDeleteStaff(staff.id)}
+                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                title="Delete"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
                                             </button>
                                         </div>
                                     </td>
@@ -377,7 +390,7 @@ export default function Department() {
                             </button>
                             <button
                                 onClick={closeModal}
-                                className="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-medium hover:shadow-lg transition-all"
+                                className="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-medium"
                             >
                                 Confirm
                             </button>
@@ -489,18 +502,26 @@ export default function Department() {
                                         </div>
                                     </div>
 
-                                    <div className="col-span-2">
-                                        <label className="block text-sm font-medium text-zinc-700 mb-2">Role ID</label>
+                                    <div className="col-span-1">
+                                        <label className="block text-sm font-medium text-zinc-700 mb-2">Designation</label>
                                         <select
                                             value={staffForm.roleId}
                                             onChange={(e) => setStaffForm({ ...staffForm, roleId: e.target.value })}
                                             className="w-full px-4 py-3 border border-zinc-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                         >
-                                            <option value="">Select a role</option>
-                                            <option value="MGR001">Staff Manager</option>
-                                            <option value="DEV001">Developer</option>
-                                            <option value="DES001">Designer</option>
+                                            <option value="">Select a designation</option>
+                                            <option value="Supervisor">Supervisor</option>
+                                            <option value="Staff Manager">Staff Manager</option>
+                                            <option value="Technician">Technician</option>
                                         </select>
+                                    </div>
+                                    <div className="col-span-1">
+                                        <label className="block text-sm font-medium text-zinc-700 mb-2">Staff Designation ID</label>
+                                        <input
+                                            type="text"
+                                            placeholder="eg. SD - 001"
+                                            className="w-full px-4 py-3 border border-zinc-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -515,7 +536,7 @@ export default function Department() {
                             </button>
                             <button
                                 onClick={closeModal}
-                                className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl font-medium hover:shadow-lg transition-all"
+                                className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl font-medium"
                             >
                                 ADD
                             </button>
@@ -627,44 +648,44 @@ export default function Department() {
                                         </div>
                                     </div>
 
-                                    <div className="col-span-2">
-                                        <label className="block text-sm font-medium text-zinc-700 mb-2">Role ID</label>
+                                    <div className="col-span-1">
+                                        <label className="block text-sm font-medium text-zinc-700 mb-2">Designation</label>
                                         <select
                                             value={staffForm.roleId}
                                             onChange={(e) => setStaffForm({ ...staffForm, roleId: e.target.value })}
                                             className="w-full px-4 py-3 border border-zinc-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                         >
-                                            <option value="">Select a role</option>
-                                            <option value="MGR001">Staff Manager</option>
-                                            <option value="DEV001">Developer</option>
-                                            <option value="DES001">Designer</option>
+                                            <option value="">Select a designation</option>
+                                            <option value="Supervisor">Supervisor</option>
+                                            <option value="Staff Manager">Staff Manager</option>
+                                            <option value="Technician">Technician</option>
                                         </select>
+                                    </div>
+                                    <div className="col-span-1">
+                                        <label className="block text-sm font-medium text-zinc-700 mb-2">Staff Designation ID</label>
+                                        <input
+                                            type="text"
+                                            placeholder="eg. SD - 001"
+                                            className="w-full px-4 py-3 border border-zinc-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        />
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="p-6 border-t border-zinc-200 flex justify-between">
+                        <div className="p-6 border-t border-zinc-200 flex justify-end space-x-3">
                             <button
-                                onClick={() => handleDeleteStaff(selectedStaff.id)}
-                                className="px-6 py-2.5 bg-red-500 text-white rounded-xl font-medium hover:bg-red-600 transition-colors"
+                                onClick={closeModal}
+                                className="px-6 py-2.5 border border-zinc-300 text-zinc-700 rounded-xl font-medium hover:bg-zinc-50 transition-colors"
                             >
-                                Delete
+                                Cancel
                             </button>
-                            <div className="flex space-x-3">
-                                <button
-                                    onClick={closeModal}
-                                    className="px-6 py-2.5 border border-zinc-300 text-zinc-700 rounded-xl font-medium hover:bg-zinc-50 transition-colors"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={closeModal}
-                                    className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl font-medium hover:shadow-lg transition-all"
-                                >
-                                    Save
-                                </button>
-                            </div>
+                            <button
+                                onClick={closeModal}
+                                className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl font-medium"
+                            >
+                                Save
+                            </button>
                         </div>
                     </div>
                 </div>
