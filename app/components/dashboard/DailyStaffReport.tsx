@@ -3,7 +3,11 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
 
-export default function DailyStaffReport() {
+interface DailyStaffReportProps {
+    onShowAll?: () => void;
+}
+
+export default function DailyStaffReport({ onShowAll }: DailyStaffReportProps) {
     const reports = [
         {
             id: '#1024',
@@ -18,21 +22,32 @@ export default function DailyStaffReport() {
         <div className="space-y-6">
 
             {/* Filters */}
-            <div className="flex space-x-4">
-                <div className="relative">
-                    <select className="bg-zinc-200/50 hover:bg-zinc-200 px-4 py-2 rounded-lg text-sm font-semibold text-zinc-900 outline-none cursor-pointer transition-colors">
-                        <option>Status</option>
-                        <option>All</option>
-                        <option>Resolved</option>
-                        <option>Pending</option>
-                    </select>
+            <div className="flex justify-between items-center">
+                <div className="flex space-x-4">
+                    <div className="relative">
+                        <select className="bg-zinc-200/50 hover:bg-zinc-200 px-4 py-2 rounded-lg text-sm font-semibold text-zinc-900 outline-none cursor-pointer transition-colors">
+                            <option>Status</option>
+                            <option>All</option>
+                            <option>Resolved</option>
+                            <option>Pending</option>
+                        </select>
+                    </div>
+                    <div className="relative">
+                        <input
+                            type="date"
+                            className="bg-zinc-200/50 hover:bg-zinc-200 px-4 py-2 rounded-lg text-sm font-semibold text-zinc-900 outline-none cursor-pointer transition-colors"
+                        />
+                    </div>
                 </div>
-                <div className="relative">
-                    <input
-                        type="date"
-                        className="bg-zinc-200/50 hover:bg-zinc-200 px-4 py-2 rounded-lg text-sm font-semibold text-zinc-900 outline-none cursor-pointer transition-colors"
-                    />
-                </div>
+
+                {onShowAll && (
+                    <button
+                        onClick={onShowAll}
+                        className="btn-primary px-4 py-2 text-sm font-semibold rounded-xl"
+                    >
+                        Show all report
+                    </button>
+                )}
             </div>
 
             {/* Report Cards grid */}

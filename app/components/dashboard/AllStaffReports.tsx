@@ -3,7 +3,11 @@
 import React from 'react';
 import { ChevronRight, FileText, Calendar, User } from 'lucide-react';
 
-export default function AllStaffReports() {
+interface AllStaffReportsProps {
+    onBack?: () => void;
+}
+
+export default function AllStaffReports({ onBack }: AllStaffReportsProps) {
     const reports = [
         {
             id: '#1024',
@@ -48,7 +52,18 @@ export default function AllStaffReports() {
     ];
 
     return (
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-4">
+            {onBack && (
+                <div className="flex justify-end">
+                    <button
+                        onClick={onBack}
+                        className="px-4 py-2 bg-white border border-zinc-200 text-zinc-900 text-sm font-semibold rounded-xl hover:bg-zinc-50 transition-all shadow-sm active:scale-95"
+                    >
+                        Back to Overview
+                    </button>
+                </div>
+            )}
+
             <div className="bg-white rounded-2xl shadow-sm border border-zinc-100 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">

@@ -63,22 +63,6 @@ export default function Home() {
               {/* Top Title */}
               <div className="flex justify-between items-center">
                 <h1 className="text-3xl font-bold tracking-tight text-zinc-900">Dashboard</h1>
-                {activeTab === 'Daily Staff Report' && !showAllReports && (
-                  <button
-                    onClick={() => setShowAllReports(true)}
-                    className="px-4 py-2 bg-zinc-900 text-white text-sm font-semibold rounded-xl hover:bg-zinc-800 transition-all shadow-sm hover:shadow-md active:scale-95"
-                  >
-                    Show all report
-                  </button>
-                )}
-                {activeTab === 'Daily Staff Report' && showAllReports && (
-                  <button
-                    onClick={() => setShowAllReports(false)}
-                    className="px-4 py-2 bg-white border border-zinc-200 text-zinc-900 text-sm font-semibold rounded-xl hover:bg-zinc-50 transition-all shadow-sm active:scale-95"
-                  >
-                    Back to Overview
-                  </button>
-                )}
               </div>
 
               {/* Navigation Tabs */}
@@ -111,7 +95,7 @@ export default function Home() {
               {activeTab === 'Quick View' && <QuickView />}
               {activeTab === 'Parcel Management' && <ParcelManagement />}
               {activeTab === 'Daily Staff Report' && (
-                showAllReports ? <AllStaffReports /> : <DailyStaffReport />
+                showAllReports ? <AllStaffReports onBack={() => setShowAllReports(false)} /> : <DailyStaffReport onShowAll={() => setShowAllReports(true)} />
               )}
             </div>
           </>

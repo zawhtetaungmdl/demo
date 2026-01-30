@@ -62,14 +62,14 @@ export default function ParcelManagement() {
 
                     <div className="flex items-center space-x-3">
                         <button
-                            className="flex items-center space-x-2 bg-zinc-100 text-zinc-700 px-6 py-3 rounded-lg hover:bg-zinc-200 transition-all font-medium border border-zinc-200"
+                            className="flex items-center space-x-2 bg-zinc-900 text-white px-6 py-3 rounded-lg hover:bg-zinc-800 hover:scale-[1.02] transition-all font-medium shadow-sm hover:shadow-md"
                         >
                             <span>Search</span>
                         </button>
 
                         <button
                             onClick={() => setShowModal(true)}
-                            className="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-200 hover:scale-105"
+                            className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg font-medium shadow-sm hover:shadow-md hover:scale-[1.02] transition-all flex items-center gap-2"
                         >
                             <Plus className="w-5 h-5" />
                             <span className="font-medium">Add Parcel</span>
@@ -123,22 +123,33 @@ export default function ParcelManagement() {
                             <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Building</th>
                             <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Tracking</th>
                             <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Received</th>
-                            <th className="text-right py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Status</th>
+                            <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Status</th>
+                            <th className="text-right py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Action</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-zinc-50">
                         {parcels.map((parcel, idx) => (
-                            <tr key={idx} className="hover:bg-zinc-50/50 transition-colors">
+                            <tr key={idx} className="hover:bg-zinc-50/50 transition-colors group">
                                 <td className="py-4 px-6 text-sm text-zinc-900 font-medium">{parcel.resident}</td>
                                 <td className="py-4 px-6 text-sm text-zinc-600">{parcel.room}</td>
                                 <td className="py-4 px-6 text-sm text-zinc-600">{parcel.building}</td>
                                 <td className="py-4 px-6 text-sm text-zinc-600 font-mono">{parcel.tracking}</td>
                                 <td className="py-4 px-6 text-sm text-zinc-600">{parcel.received}</td>
-                                <td className="py-4 px-6 text-right">
+                                <td className="py-4 px-6">
                                     <span className={`inline-block px-4 py-1.5 rounded-full text-xs font-medium text-white ${parcel.status === 'Received' ? 'bg-green-500' : 'bg-orange-500'
                                         }`}>
                                         {parcel.status}
                                     </span>
+                                </td>
+                                <td className="py-4 px-6 text-right">
+                                    <div className="flex items-center justify-end space-x-2">
+                                        <button className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                                        </button>
+                                        <button className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-trash-2"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" x2="10" y1="11" y2="17"></line><line x1="14" x2="14" y1="11" y2="17"></line></svg>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
@@ -262,7 +273,7 @@ export default function ParcelManagement() {
                             </button>
                             <button
                                 onClick={handleSave}
-                                className="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-lg text-sm font-semibold hover:shadow-lg transition-all"
+                                className="flex-1 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg text-sm font-semibold hover:shadow-lg transition-all"
                             >
                                 Save
                             </button>

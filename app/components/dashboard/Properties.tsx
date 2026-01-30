@@ -129,7 +129,7 @@ export default function Properties() {
                             <option>Building A</option>
                             <option>Building B</option>
                             <option>Building C</option>
-                            <option>Building E</option>
+                            <option>Building D</option>
                         </select>
                         <select className="flex-1 md:w-40 px-4 py-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option>All Floor</option>
@@ -140,7 +140,7 @@ export default function Properties() {
                         </select>
                         <button
                             onClick={() => setActiveModal(activeView === 'condo' ? 'add-unit' : 'add-owner')}
-                            className="px-6 py-2.5 bg-zinc-900 text-white rounded-lg text-sm font-bold hover:bg-zinc-800 transition-all flex items-center gap-2"
+                            className="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg text-sm font-semibold hover:shadow-lg hover:scale-[1.02] transition-all flex items-center gap-2"
                         >
                             <Plus className="w-4 h-4" />
                             <span>{activeView === 'condo' ? 'Add New Unit' : 'Add Rent Owner'}</span>
@@ -163,6 +163,7 @@ export default function Properties() {
                                 <th className="text-left py-3 px-4 text-xs font-bold text-zinc-900 uppercase">Floor No</th>
                                 <th className="text-left py-3 px-4 text-xs font-bold text-zinc-900 uppercase">Price</th>
                                 <th className="text-left py-3 px-4 text-xs font-bold text-zinc-900 uppercase">Phone no</th>
+                                <th className="text-center py-3 px-4 text-xs font-bold text-zinc-900 uppercase">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -175,20 +176,22 @@ export default function Properties() {
                                     <td className="py-3 px-4 text-sm text-zinc-900">{unit.buildingNo}</td>
                                     <td className="py-3 px-4 text-sm text-zinc-900">{unit.floorNo}</td>
                                     <td className="py-3 px-4 text-sm text-zinc-900">{unit.price}</td>
-                                    <td className="py-3 px-4 text-sm text-zinc-900">
-                                        <div className="flex items-center justify-between">
-                                            <span>{unit.phoneNo}</span>
-                                            <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button
-                                                    onClick={() => setActiveModal(activeView === 'condo' ? 'edit-unit' : 'edit-owner')}
-                                                    className="p-1 text-blue-600 hover:bg-blue-50 rounded"
-                                                >
-                                                    <Edit2 className="w-4 h-4" />
-                                                </button>
-                                                <button className="p-1 text-red-600 hover:bg-red-50 rounded">
-                                                    <Trash2 className="w-4 h-4" />
-                                                </button>
-                                            </div>
+                                    <td className="py-3 px-4 text-sm text-zinc-900">{unit.phoneNo}</td>
+                                    <td className="py-3 px-4">
+                                        <div className="flex items-center justify-center space-x-2">
+                                            <button
+                                                onClick={() => setActiveModal(activeView === 'condo' ? 'edit-unit' : 'edit-owner')}
+                                                className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                title="Edit"
+                                            >
+                                                <Edit2 className="w-4 h-4" />
+                                            </button>
+                                            <button
+                                                className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                title="Delete"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -288,7 +291,7 @@ export default function Properties() {
                             <button onClick={closeModal} className="flex-1 px-4 py-2 bg-zinc-200 text-zinc-700 rounded text-sm font-semibold hover:bg-zinc-300 transition-colors">
                                 Cancel
                             </button>
-                            <button onClick={closeModal} className="flex-1 px-4 py-2 bg-blue-500 text-white rounded text-sm font-semibold hover:bg-blue-600 transition-colors">
+                            <button onClick={closeModal} className="flex-1 px-4 py-2 bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded text-sm font-semibold hover:shadow-lg transition-all">
                                 ADD UNIT
                             </button>
                         </div>
@@ -345,7 +348,7 @@ export default function Properties() {
                             <button onClick={closeModal} className="flex-1 px-4 py-2 bg-zinc-200 text-zinc-700 rounded text-sm font-semibold hover:bg-zinc-300 transition-colors">
                                 Cancel
                             </button>
-                            <button onClick={closeModal} className="flex-1 px-4 py-2 bg-blue-500 text-white rounded text-sm font-semibold hover:bg-blue-600 transition-colors">
+                            <button onClick={closeModal} className="flex-1 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded text-sm font-semibold hover:shadow-lg transition-all">
                                 Save
                             </button>
                         </div>
@@ -426,7 +429,7 @@ export default function Properties() {
                             <button onClick={closeModal} className="flex-1 px-4 py-2 bg-zinc-200 text-zinc-700 rounded text-sm font-semibold hover:bg-zinc-300 transition-colors">
                                 Cancel
                             </button>
-                            <button onClick={closeModal} className="flex-1 px-4 py-2 bg-blue-500 text-white rounded text-sm font-semibold hover:bg-blue-600 transition-colors">
+                            <button onClick={closeModal} className="flex-1 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded text-sm font-semibold hover:shadow-lg transition-all">
                                 Rent Now
                             </button>
                         </div>
@@ -507,7 +510,7 @@ export default function Properties() {
                             <button onClick={closeModal} className="flex-1 px-4 py-2 bg-zinc-200 text-zinc-700 rounded text-sm font-semibold hover:bg-zinc-300 transition-colors">
                                 Cancel
                             </button>
-                            <button onClick={closeModal} className="flex-1 px-4 py-2 bg-blue-500 text-white rounded text-sm font-semibold hover:bg-blue-600 transition-colors">
+                            <button onClick={closeModal} className="flex-1 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded text-sm font-semibold hover:shadow-lg transition-all">
                                 Save Data
                             </button>
                         </div>
@@ -566,7 +569,7 @@ export default function Properties() {
                             <button onClick={closeModal} className="flex-1 px-4 py-2 bg-zinc-200 text-zinc-700 rounded text-sm font-semibold hover:bg-zinc-300 transition-colors">
                                 Cancel
                             </button>
-                            <button onClick={closeModal} className="flex-1 px-4 py-2 bg-blue-500 text-white rounded text-sm font-semibold hover:bg-blue-600 transition-colors">
+                            <button onClick={closeModal} className="flex-1 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded text-sm font-semibold hover:shadow-lg transition-all">
                                 Save
                             </button>
                         </div>

@@ -34,14 +34,14 @@ const Sidebar = ({ activeSection, onNavigate }: SidebarProps) => {
                         key={item.name}
                         onClick={() => onNavigate(item.id)}
                         className={`w-full flex items-center px-4 py-3 rounded-lg transition-all duration-200 group nav-ripple ${activeSection === item.id
-                            ? 'bg-blue-50 text-blue-600 shadow-sm'
+                            ? 'bg-emerald-50 text-emerald-600 shadow-sm'
                             : 'hover:bg-zinc-50 text-zinc-500 hover:text-zinc-900'
                             }`}
                     >
-                        <item.icon className={`w-5 h-5 mr-3 ${activeSection === item.id ? 'text-blue-600' : 'text-zinc-500 group-hover:text-zinc-900'}`} />
+                        <item.icon className={`w-5 h-5 mr-3 ${activeSection === item.id ? 'text-emerald-600' : 'text-zinc-500 group-hover:text-zinc-900'}`} />
                         <span className="font-medium text-sm">{item.name}</span>
                         {item.badge && (
-                            <span className={`ml-auto text-xs font-semibold px-2 py-0.5 rounded-md ${activeSection === item.id ? 'text-blue-600' : 'text-zinc-500'
+                            <span className={`ml-auto text-xs font-semibold px-2 py-0.5 rounded-md ${activeSection === item.id ? 'text-emerald-600' : 'text-zinc-500'
                                 }`}>
                                 {item.badge}
                             </span>
@@ -65,13 +65,13 @@ const Sidebar = ({ activeSection, onNavigate }: SidebarProps) => {
                         }}
                         className={`w-full flex items-center px-4 py-3 rounded-lg transition-colors group nav-ripple ${(item.name === 'Setting' && activeSection === 'settings') ||
                             (item.name === 'Zoey with use image' && activeSection === 'profile')
-                            ? 'bg-blue-50 text-blue-600 shadow-sm'
+                            ? 'bg-emerald-50 text-emerald-600 shadow-sm'
                             : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'
                             }`}
                     >
                         <item.icon className={`w-5 h-5 mr-3 ${(item.name === 'Setting' && activeSection === 'settings') ||
                             (item.name === 'Zoey with use image' && activeSection === 'profile')
-                            ? 'text-blue-600'
+                            ? 'text-emerald-600'
                             : 'text-zinc-800 group-hover:text-black'
                             }`} />
                         <span className="font-medium text-sm">{item.name}</span>

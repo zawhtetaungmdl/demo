@@ -204,14 +204,14 @@ export default function Department() {
                     </button>
                     <button
                         onClick={() => setActiveModal('confirm')}
-                        className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2"
+                        className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl font-medium shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200 flex items-center justify-center space-x-2"
                     >
                         <Clock className="w-5 h-5" />
                         <span>Confirm</span>
                     </button>
                     <button
                         onClick={() => setActiveModal('add')}
-                        className="px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2"
+                        className="px-6 py-3 bg-zinc-900 text-white rounded-xl font-medium shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200 flex items-center justify-center space-x-2"
                     >
                         <Plus className="w-5 h-5" />
                         <span>Add Staff</span>
@@ -390,7 +390,7 @@ export default function Department() {
                             </button>
                             <button
                                 onClick={closeModal}
-                                className="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-medium"
+                                className="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl font-medium hover:shadow-lg hover:scale-[1.02] transition-all"
                             >
                                 Confirm
                             </button>
@@ -536,7 +536,7 @@ export default function Department() {
                             </button>
                             <button
                                 onClick={closeModal}
-                                className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl font-medium"
+                                className="px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-xl font-medium hover:shadow-lg hover:scale-[1.02] transition-all"
                             >
                                 ADD
                             </button>
@@ -682,7 +682,7 @@ export default function Department() {
                             </button>
                             <button
                                 onClick={closeModal}
-                                className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl font-medium"
+                                className="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl font-medium hover:shadow-lg hover:scale-[1.02] transition-all"
                             >
                                 Save
                             </button>
