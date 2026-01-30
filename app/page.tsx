@@ -16,18 +16,33 @@ import ServiceRequests from './components/dashboard/ServiceRequests';
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState('admin');
   const [activeSection, setActiveSection] = useState('dashboard');
   const [activeTab, setActiveTab] = useState('Quick View');
   const [showAllReports, setShowAllReports] = useState(false);
 
-  const tabs = ['Quick View', 'Parcel Management', 'Daily Staff Report'];
+  const allTabs = ['Quick View', 'Parcel Management', 'Daily Staff Report'];
 
-  const handleLogin = () => {
+  const handleLogin = (user: { email: string; role: string }) => {
     setIsLoggedIn(true);
+    setUserRole(user.role);
+
+    // Set initial section based on role
+    if (user.role === 'technician') {
+      setActiveSection('service-requests');
+    } else {
+      setActiveSection('dashboard');
+      if (user.role === 'staff') {
+        setActiveTab('Parcel Management');
+      } else {
+        setActiveTab('Quick View');
+      }
+    }
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    setUserRole('admin');
     setActiveSection('dashboard');
     setActiveTab('Quick View');
     setShowAllReports(false);
@@ -40,11 +55,26 @@ export default function Home() {
     }
     setActiveSection(section);
     setShowAllReports(false);
-    // Reset to first tab when navigating back to dashboard
+
+    // Handle initial tab selection for specific roles when navigating back to dashboard
     if (section === 'dashboard') {
-      setActiveTab('Quick View');
+      if (userRole === 'staff') {
+        setActiveTab('Parcel Management');
+      } else {
+        setActiveTab('Quick View');
+      }
     }
   };
+
+  // Role-based tab filtering for Dashboard
+  const getVisibleTabs = () => {
+    if (userRole === 'staff') {
+      return ['Parcel Management'];
+    }
+    return allTabs;
+  };
+
+  const visibleTabs = getVisibleTabs();
 
   // Show login page if not logged in
   if (!isLoggedIn) {
@@ -52,9 +82,9 @@ export default function Home() {
   }
 
   return (
-    <div className="flex bg-zinc-50 min-h-screen font-sans text-zinc-900">
-      <Sidebar activeSection={activeSection} onNavigate={handleNavigate} />
-      <main className="flex-1 md:ml-64 p-8">
+    <div className="flex bg-slate-50 min-h-screen font-sans text-slate-900">
+      <Sidebar activeSection={activeSection} onNavigate={handleNavigate} userRole={userRole} />
+      <main className="flex-1 ml-56 p-8">
 
         {/* Dashboard Section */}
         {activeSection === 'dashboard' && (
@@ -62,27 +92,27 @@ export default function Home() {
             <div className="flex flex-col space-y-6 mb-8">
               {/* Top Title */}
               <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold tracking-tight text-zinc-900">Dashboard</h1>
+                <h1 className="text-2xl font-black tracking-tight text-slate-900">Operations Control</h1>
               </div>
 
               {/* Navigation Tabs */}
-              <div className="border-b border-zinc-200">
-                <div className="flex space-x-8">
-                  {tabs.map((tab) => (
+              <div className="border-b border-slate-200">
+                <div className="flex space-x-10">
+                  {visibleTabs.map((tab) => (
                     <button
                       key={tab}
                       onClick={() => {
                         setActiveTab(tab);
                         setShowAllReports(false);
                       }}
-                      className={`pb-4 text-sm font-medium transition-colors relative ${activeTab === tab
-                        ? 'text-zinc-900'
-                        : 'text-zinc-400 hover:text-zinc-600'
+                      className={`pb-4 text-[11px] font-black uppercase tracking-widest transition-all relative ${activeTab === tab
+                        ? 'text-blue-600'
+                        : 'text-slate-400 hover:text-slate-600'
                         }`}
                     >
                       {tab}
                       {activeTab === tab && (
-                        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-zinc-900 rounded-t-full"></div>
+                        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-t-full shadow-[0_-2px_8px_rgba(59,130,246,0.3)]"></div>
                       )}
                     </button>
                   ))}
@@ -91,10 +121,10 @@ export default function Home() {
             </div>
 
             {/* Content Area */}
-            <div className="animate-in fade-in duration-300">
-              {activeTab === 'Quick View' && <QuickView />}
+            <div className="animate-fade-in">
+              {activeTab === 'Quick View' && userRole !== 'staff' && <QuickView onViewAllStaff={() => handleNavigate('department')} />}
               {activeTab === 'Parcel Management' && <ParcelManagement />}
-              {activeTab === 'Daily Staff Report' && (
+              {activeTab === 'Daily Staff Report' && userRole !== 'staff' && (
                 showAllReports ? <AllStaffReports onBack={() => setShowAllReports(false)} /> : <DailyStaffReport onShowAll={() => setShowAllReports(true)} />
               )}
             </div>
@@ -103,38 +133,30 @@ export default function Home() {
 
         {/* Department Section */}
         {activeSection === 'department' && (
-          <>
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold tracking-tight text-zinc-900">Department</h1>
-              <p className="text-zinc-500 mt-2">Manage your staff members and team</p>
-            </div>
-            <Department />
-          </>
+          <Department />
         )}
 
-        {/* Placeholder sections for other menu items */}
+        {/* Payment Section */}
         {activeSection === 'payment' && (
           <Payment />
         )}
 
+        {/* Service Requests Section */}
         {activeSection === 'service-requests' && (
           <ServiceRequests />
         )}
 
+        {/* Properties Section */}
         {activeSection === 'properties' && (
-          <>
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold tracking-tight text-zinc-900">Properties</h1>
-              <p className="text-zinc-500 mt-2">Manage condo units and rental properties</p>
-            </div>
-            <Properties />
-          </>
+          <Properties />
         )}
 
+        {/* Settings Section */}
         {activeSection === 'settings' && (
           <Settings />
         )}
 
+        {/* Profile Section */}
         {activeSection === 'profile' && (
           <Profile />
         )}

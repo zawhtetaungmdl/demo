@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, Calendar, ChevronDown, X, Upload, Plus } from 'lucide-react';
+import { Search, X, Upload, Plus, Pencil, Trash2, Filter, Package, ChevronRight, Calendar, User, Building } from 'lucide-react';
 
 export default function ParcelManagement() {
     const [showModal, setShowModal] = useState(false);
@@ -15,11 +15,11 @@ export default function ParcelManagement() {
     });
 
     const parcels = [
-        { resident: 'Robert Fox', room: '101', tracking: '1ZALAZA123456789', received: '2026-1-20', status: 'Received', building: 'Building A' },
-        { resident: 'Sarah Wilson', room: '205', tracking: '2XBLBXB987654321', received: '2026-1-22', status: 'Received', building: 'Building B' },
-        { resident: 'John Doe', room: '310', tracking: '3CCMCXC456123789', received: '2026-1-23', status: 'pickup', building: 'Building C' },
-        { resident: 'Emily Davis', room: '402', tracking: '4DDMDXD321654987', received: '2026-1-25', status: 'Received', building: 'Building D' },
-        { resident: 'Robert Fox', room: '101', tracking: '1ZALAZA123456789', received: '2026-1-20', status: 'Received', building: 'Building A' },
+        { resident: 'Robert Fox', room: '101', tracking: '1ZALAZA123456789', received: '2026-01-20', status: 'Received', building: 'Building A' },
+        { resident: 'Sarah Wilson', room: '205', tracking: '2XBLBXB987654321', received: '2026-01-22', status: 'Received', building: 'Building B' },
+        { resident: 'John Doe', room: '310', tracking: '3CCMCXC456123789', received: '2026-01-23', status: 'PICKUP', building: 'Building C' },
+        { resident: 'Emily Davis', room: '402', tracking: '4DDMDXD321654987', received: '2026-01-25', status: 'Received', building: 'Building D' },
+        { resident: 'Michael Brown', room: '105', tracking: '5EEME XE789456123', received: '2026-01-26', status: 'Received', building: 'Building A' },
     ];
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,10 +30,8 @@ export default function ParcelManagement() {
     };
 
     const handleSave = () => {
-        // Handle save logic here
         console.log('Saving parcel:', parcelForm);
         setShowModal(false);
-        // Reset form
         setParcelForm({
             name: '',
             date: '',
@@ -46,242 +44,287 @@ export default function ParcelManagement() {
 
     return (
         <div className="space-y-6">
-
-            {/* Filters */}
-            <div className="bg-white p-4 rounded-xl shadow-sm border border-zinc-100 space-y-4">
-                <div className="flex flex-col md:flex-row gap-4">
-                    {/* Search */}
-                    <div className="flex-1 relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
-                        <input
-                            type="text"
-                            placeholder="Search by name"
-                            className="w-full bg-zinc-200/50 pl-10 pr-4 py-3 rounded-lg outline-none text-zinc-800 placeholder-zinc-500"
-                        />
-                    </div>
-
-                    <div className="flex items-center space-x-3">
-                        <button
-                            className="flex items-center space-x-2 bg-zinc-900 text-white px-6 py-3 rounded-lg hover:bg-zinc-800 hover:scale-[1.02] transition-all font-medium shadow-sm hover:shadow-md"
-                        >
-                            <span>Search</span>
-                        </button>
-
-                        <button
-                            onClick={() => setShowModal(true)}
-                            className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg font-medium shadow-sm hover:shadow-md hover:scale-[1.02] transition-all flex items-center gap-2"
-                        >
-                            <Plus className="w-5 h-5" />
-                            <span className="font-medium">Add Parcel</span>
-                        </button>
-                    </div>
+            {/* Header / Stats Overlay */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 className="text-xl font-bold text-slate-900">Parcel Tracking</h2>
+                    <p className="text-sm text-slate-500">Monitor and manage all incoming resident deliveries</p>
                 </div>
+                <button
+                    onClick={() => setShowModal(true)}
+                    className="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 transition-all flex items-center gap-2 shadow-sm hover:shadow-md active:scale-95"
+                >
+                    <Plus className="w-4 h-4" />
+                    <span>Log New Parcel</span>
+                </button>
+            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium text-zinc-600">Date Range</label>
-                        <div className="relative">
-                            <input type="date" className="w-full bg-zinc-200/50 px-4 py-2.5 rounded-lg outline-none text-zinc-800" />
+            {/* Filters Section */}
+            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                <div className="flex flex-col lg:flex-row gap-6">
+                    {/* Search */}
+                    <div className="flex-1">
+                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Search Resident</label>
+                        <div className="flex gap-2">
+                            <div className="relative flex-1">
+                                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                <input
+                                    type="text"
+                                    placeholder="Start typing resident name..."
+                                    className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                />
+                            </div>
+                            <button className="px-5 py-3 bg-slate-900 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-slate-800 transition-all flex items-center gap-2 shadow-sm active:scale-95">
+                                <Search className="w-4 h-4" />
+                                <span>Search</span>
+                            </button>
                         </div>
                     </div>
 
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium text-zinc-600">Parcel status</label>
-                        <div className="relative">
-                            <select className="w-full bg-zinc-200/50 px-4 py-2.5 rounded-lg outline-none text-zinc-800 appearance-none cursor-pointer">
-                                <option>All</option>
-                                <option>Received</option>
-                                <option>pickup</option>
-                            </select>
-                            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 pointer-events-none" />
+                    {/* Filter Group */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:w-3/5">
+                        <div>
+                            <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Arrival Date</label>
+                            <div className="relative">
+                                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                <input
+                                    type="date"
+                                    className="w-full pl-10 pr-3 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium text-zinc-600">Building Number</label>
-                        <div className="relative">
-                            <select className="w-full bg-zinc-200/50 px-4 py-2.5 rounded-lg outline-none text-zinc-800 appearance-none cursor-pointer">
-                                <option>All</option>
-                                <option>Building A</option>
-                                <option>Building B</option>
-                                <option>Building C</option>
-                                <option>Building D</option>
-                            </select>
-                            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 pointer-events-none" />
+                        <div>
+                            <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Building</label>
+                            <div className="relative">
+                                <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                <select className="w-full pl-10 pr-3 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:outline-none appearance-none cursor-pointer">
+                                    <option>All Buildings</option>
+                                    <option>Building A</option>
+                                    <option>Building B</option>
+                                    <option>Building C</option>
+                                </select>
+                                <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 rotate-90 pointer-events-none" />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Status</label>
+                            <div className="relative">
+                                <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                <select className="w-full pl-10 pr-3 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:outline-none appearance-none cursor-pointer">
+                                    <option>All Status</option>
+                                    <option>Received</option>
+                                    <option>PICKUP</option>
+                                </select>
+                                <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 rotate-90 pointer-events-none" />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Table */}
-            <div className="bg-white rounded-xl shadow-sm border border-zinc-100 overflow-hidden">
-                <table className="w-full">
-                    <thead>
-                        <tr className="bg-zinc-100/80 border-b border-zinc-200">
-                            <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Resident</th>
-                            <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Room</th>
-                            <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Building</th>
-                            <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Tracking</th>
-                            <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Received</th>
-                            <th className="text-left py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Status</th>
-                            <th className="text-right py-4 px-6 text-xs font-bold text-zinc-900 uppercase tracking-wider">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-zinc-50">
-                        {parcels.map((parcel, idx) => (
-                            <tr key={idx} className="hover:bg-zinc-50/50 transition-colors group">
-                                <td className="py-4 px-6 text-sm text-zinc-900 font-medium">{parcel.resident}</td>
-                                <td className="py-4 px-6 text-sm text-zinc-600">{parcel.room}</td>
-                                <td className="py-4 px-6 text-sm text-zinc-600">{parcel.building}</td>
-                                <td className="py-4 px-6 text-sm text-zinc-600 font-mono">{parcel.tracking}</td>
-                                <td className="py-4 px-6 text-sm text-zinc-600">{parcel.received}</td>
-                                <td className="py-4 px-6">
-                                    <span className={`inline-block px-4 py-1.5 rounded-full text-xs font-medium text-white ${parcel.status === 'Received' ? 'bg-green-500' : 'bg-orange-500'
-                                        }`}>
-                                        {parcel.status}
-                                    </span>
-                                </td>
-                                <td className="py-4 px-6 text-right">
-                                    <div className="flex items-center justify-end space-x-2">
-                                        <button className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-                                        </button>
-                                        <button className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-trash-2"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" x2="10" y1="11" y2="17"></line><line x1="14" x2="14" y1="11" y2="17"></line></svg>
-                                        </button>
-                                    </div>
-                                </td>
+            <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                        <thead>
+                            <tr className="bg-slate-50 border-b border-slate-200">
+                                <th className="py-4 px-6 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Resident Details</th>
+                                <th className="py-4 px-6 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Location</th>
+                                <th className="py-4 px-6 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Tracking Number</th>
+                                <th className="py-4 px-6 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Arrival Info</th>
+                                <th className="py-4 px-6 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                                <th className="py-4 px-6 text-[11px] font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                            {parcels.map((parcel, idx) => (
+                                <tr key={idx} className="group hover:bg-slate-50/50 transition-colors">
+                                    <td className="py-4 px-6">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs">
+                                                {parcel.resident.charAt(0)}
+                                            </div>
+                                            <div>
+                                                <div className="text-sm font-bold text-slate-900">{parcel.resident}</div>
+                                                <div className="text-xs text-slate-500">Regular Resident</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="py-4 px-6">
+                                        <div className="flex flex-col">
+                                            <span className="text-sm font-medium text-slate-700">{parcel.building}</span>
+                                            <span className="text-xs text-slate-500">Unit: {parcel.room}</span>
+                                        </div>
+                                    </td>
+                                    <td className="py-4 px-6">
+                                        <div className="flex items-center gap-2">
+                                            <Package className="w-4 h-4 text-slate-400" />
+                                            <span className="text-sm font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded uppercase">{parcel.tracking}</span>
+                                        </div>
+                                    </td>
+                                    <td className="py-4 px-6 text-sm text-slate-600 font-medium">
+                                        {new Date(parcel.received).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                    </td>
+                                    <td className="py-4 px-6">
+                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase ${parcel.status === 'Received'
+                                            ? 'bg-emerald-100 text-emerald-700'
+                                            : 'bg-orange-100 text-orange-700'
+                                            }`}>
+                                            <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${parcel.status === 'Received' ? 'bg-emerald-500' : 'bg-orange-500'
+                                                }`} />
+                                            {parcel.status}
+                                        </span>
+                                    </td>
+                                    <td className="py-4 px-6 text-right">
+                                        <div className="flex justify-end gap-1">
+                                            <button className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                                                <Pencil className="w-4 h-4" />
+                                            </button>
+                                            <button className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all">
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            {/* Log New Parcel Modal - Compact Design */}
+            {/* Log New Parcel Modal */}
             {showModal && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
-                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto animate-scale-in">
-                        {/* Modal Header - Compact */}
-                        <div className="p-4 border-b border-zinc-200">
-                            <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-bold text-zinc-900">Log New Parcel</h2>
-                                <button
-                                    onClick={() => setShowModal(false)}
-                                    className="p-1.5 hover:bg-zinc-100 rounded-lg transition-colors"
-                                >
-                                    <X className="w-5 h-5 text-zinc-500" />
-                                </button>
+                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col animate-scale-in border border-slate-200">
+                        {/* Modal Header */}
+                        <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                            <div>
+                                <h2 className="text-xl font-bold text-slate-900">Log New Parcel</h2>
+                                <p className="text-xs text-slate-500 mt-0.5">Enter details of the received package</p>
                             </div>
+                            <button
+                                onClick={() => setShowModal(false)}
+                                className="p-2 hover:bg-slate-200 rounded-lg transition-colors bg-slate-100"
+                            >
+                                <X className="w-5 h-5 text-slate-500" />
+                            </button>
                         </div>
 
-                        {/* Modal Body - Compact */}
-                        <div className="p-4 space-y-4">
-                            {/* Name Field */}
+                        {/* Modal Body */}
+                        <div className="p-6 space-y-5 overflow-y-auto">
+                            {/* Resident Selection */}
                             <div>
-                                <label className="block text-xs font-semibold text-zinc-900 mb-1.5">Name</label>
-                                <input
-                                    type="text"
-                                    value={parcelForm.name}
-                                    onChange={(e) => setParcelForm({ ...parcelForm, name: e.target.value })}
-                                    placeholder="Enter resident's name"
-                                    className="w-full px-3 py-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                />
-                            </div>
-
-                            {/* Date and Room Number */}
-                            <div className="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label className="block text-xs font-semibold text-zinc-900 mb-1.5">Date</label>
+                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Resident Search</label>
+                                <div className="relative">
+                                    <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                     <input
-                                        type="date"
-                                        value={parcelForm.date}
-                                        onChange={(e) => setParcelForm({ ...parcelForm, date: e.target.value })}
-                                        className="w-full px-3 py-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                        type="text"
+                                        value={parcelForm.name}
+                                        onChange={(e) => setParcelForm({ ...parcelForm, name: e.target.value })}
+                                        placeholder="Type resident name..."
+                                        className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
                                     />
                                 </div>
+                            </div>
 
+                            <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-zinc-900 mb-1.5">Room Number</label>
+                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Arrival Date</label>
+                                    <div className="relative">
+                                        <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                        <input
+                                            type="date"
+                                            value={parcelForm.date}
+                                            onChange={(e) => setParcelForm({ ...parcelForm, date: e.target.value })}
+                                            className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Room / Unit</label>
                                     <input
                                         type="text"
                                         value={parcelForm.roomNumber}
                                         onChange={(e) => setParcelForm({ ...parcelForm, roomNumber: e.target.value })}
-                                        className="w-full px-3 py-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                        placeholder="e.g. 402"
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
                                     />
                                 </div>
                             </div>
 
-                            {/* Parcel Number and Status */}
-                            <div className="grid grid-cols-2 gap-3">
+                            <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-zinc-900 mb-1.5">Parcel Number</label>
+                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Tracking ID</label>
                                     <input
                                         type="text"
                                         value={parcelForm.parcelNumber}
                                         onChange={(e) => setParcelForm({ ...parcelForm, parcelNumber: e.target.value })}
-                                        className="w-full px-3 py-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                        placeholder="1Z XXXXX..."
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-mono"
                                     />
                                 </div>
-
                                 <div>
-                                    <label className="block text-xs font-semibold text-zinc-900 mb-1.5">Status</label>
-                                    <div className="relative">
-                                        <select
-                                            value={parcelForm.status}
-                                            onChange={(e) => setParcelForm({ ...parcelForm, status: e.target.value })}
-                                            className="w-full px-3 py-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none cursor-pointer"
-                                        >
-                                            <option value="">Select status</option>
-                                            <option value="Received">Received</option>
-                                            <option value="Pick up">Pick up</option>
-                                            <option value="Delivered">Delivered</option>
-                                        </select>
-                                        <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 pointer-events-none" />
-                                    </div>
+                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Initial Status</label>
+                                    <select
+                                        value={parcelForm.status}
+                                        onChange={(e) => setParcelForm({ ...parcelForm, status: e.target.value })}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all appearance-none cursor-pointer"
+                                    >
+                                        <option value="">Select Status</option>
+                                        <option value="Received">Received</option>
+                                        <option value="PICKUP">Pick up</option>
+                                    </select>
                                 </div>
                             </div>
 
-                            {/* Image Upload - Compact */}
+                            {/* Image Upload Area */}
                             <div>
-                                <label className="block text-xs font-semibold text-zinc-900 mb-1.5">Image Of Parcel</label>
-                                <div className="border-2 border-dashed border-zinc-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors cursor-pointer bg-zinc-50">
+                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Package Proof (Optional)</label>
+                                <div className="border-2 border-dashed border-slate-200 rounded-2xl p-8 hover:border-blue-400 hover:bg-blue-50/30 transition-all cursor-pointer text-center group">
                                     <input
                                         type="file"
-                                        id="parcel-image"
+                                        id="parcel-image-upload"
                                         accept="image/*"
                                         onChange={handleImageUpload}
                                         className="hidden"
                                     />
-                                    <label htmlFor="parcel-image" className="cursor-pointer">
-                                        <Upload className="w-8 h-8 text-zinc-400 mx-auto mb-2" />
-                                        <p className="text-zinc-600 text-sm font-medium">Upload a file image</p>
+                                    <label htmlFor="parcel-image-upload" className="cursor-pointer">
+                                        <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform bg-white border border-slate-200 shadow-sm">
+                                            <Upload className="w-6 h-6 text-blue-500" />
+                                        </div>
+                                        <p className="text-sm font-bold text-slate-700">Drop package photo here</p>
+                                        <p className="text-xs text-slate-400 mt-1">or click to browse from device</p>
                                         {parcelForm.image && (
-                                            <p className="text-xs text-blue-600 mt-1.5">{parcelForm.image.name}</p>
+                                            <div className="mt-4 px-3 py-1.5 bg-blue-50 text-blue-700 text-xs font-bold rounded-full inline-flex items-center gap-2">
+                                                <Package className="w-3.5 h-3.5" />
+                                                {parcelForm.image.name}
+                                            </div>
                                         )}
                                     </label>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Modal Footer - Compact */}
-                        <div className="p-4 border-t border-zinc-200 flex gap-3">
+                        {/* Modal Footer */}
+                        <div className="p-6 border-t border-slate-100 flex gap-3 bg-slate-50/50">
                             <button
                                 onClick={() => setShowModal(false)}
-                                className="flex-1 px-4 py-2.5 bg-zinc-200 text-zinc-700 rounded-lg text-sm font-semibold hover:bg-zinc-300 transition-colors"
+                                className="flex-1 px-4 py-3 bg-white border border-slate-200 text-slate-700 rounded-xl text-sm font-bold hover:bg-slate-50 transition-all active:scale-[0.98]"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleSave}
-                                className="flex-1 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg text-sm font-semibold hover:shadow-lg transition-all"
+                                className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-[0.98]"
                             >
-                                Save
+                                Confirm Log
                             </button>
                         </div>
                     </div>
                 </div>
             )}
-
         </div>
     );
 }

@@ -2,10 +2,9 @@
 
 import React from 'react';
 import {
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-    AreaChart, Area
+    AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
-import { TrendingUp, TrendingDown, MoreHorizontal } from 'lucide-react';
+import { TrendingUp, Users, CheckCircle, AlertCircle, UserPlus, ChevronRight, MoreHorizontal, LayoutDashboard } from 'lucide-react';
 
 const data = [
     { name: 'Jan', value: 30000 },
@@ -23,20 +22,23 @@ const data = [
 ];
 
 const RevenueChart = ({ data }: { data: any[] }) => (
-    <div className="lg:col-span-2 bg-white p-8 rounded-3xl shadow-sm border border-zinc-100 flex flex-col">
+    <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 flex flex-col shadow-sm">
         <div className="flex justify-between items-start mb-8">
             <div>
-                <p className="text-zinc-400 font-semibold text-xs uppercase tracking-wider mb-1">Total Performance</p>
+                <div className="flex items-center gap-2 mb-1">
+                    <span className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></span>
+                    <p className="text-slate-500 font-bold text-[11px] uppercase tracking-widest">Revenue Performance</p>
+                </div>
                 <div className="flex items-center space-x-3">
-                    <h3 className="text-4xl font-bold text-zinc-900 tracking-tight">$85,230</h3>
-                    <div className="flex items-center space-x-1 px-2 py-1 bg-emerald-50 text-emerald-600 rounded-full text-xs font-bold ring-1 ring-emerald-100">
+                    <h3 className="text-3xl font-black text-slate-900 tracking-tight">$85,230.00</h3>
+                    <div className="flex items-center space-x-1 bg-emerald-50 text-emerald-600 px-2 py-1 rounded-lg text-[10px] font-bold">
                         <TrendingUp className="w-3 h-3" />
-                        <span>+1.8%</span>
+                        <span>+12.4%</span>
                     </div>
                 </div>
             </div>
-            <div className="flex bg-zinc-50 p-1 rounded-xl ring-1 ring-zinc-200/50">
-                <button className="px-4 py-1.5 text-xs font-bold text-zinc-900 bg-white rounded-lg shadow-sm ring-1 ring-zinc-200">Monthly</button>
+            <div className="flex bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200/50">
+                <span className="text-[11px] font-black text-slate-700 uppercase tracking-widest">Monthly Basis</span>
             </div>
         </div>
 
@@ -45,42 +47,44 @@ const RevenueChart = ({ data }: { data: any[] }) => (
                 <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                     <defs>
                         <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.15} />
-                            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                            <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.15} />
+                            <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
                         </linearGradient>
                     </defs>
-                    <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#f4f4f5" />
+                    <CartesianGrid vertical={false} strokeDasharray="4 4" stroke="#f1f5f9" />
                     <XAxis
                         dataKey="name"
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fill: '#a1a1aa', fontSize: 12, fontWeight: 500 }}
+                        tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 600 }}
                         dy={10}
                     />
                     <YAxis
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fill: '#a1a1aa', fontSize: 12, fontWeight: 500 }}
+                        tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 600 }}
+                        tickFormatter={(value) => `$${value / 1000}k`}
                     />
                     <Tooltip
+                        cursor={{ stroke: '#3B82F6', strokeWidth: 1 }}
                         contentStyle={{
                             backgroundColor: '#fff',
                             borderRadius: '16px',
-                            border: '1px solid #e4e4e7',
+                            border: '1px solid #e2e8f0',
                             boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
                             padding: '12px'
                         }}
-                        itemStyle={{ color: '#18181b', fontWeight: 600, fontSize: '14px' }}
-                        labelStyle={{ color: '#71717a', fontSize: '12px', marginBottom: '4px' }}
+                        itemStyle={{ color: '#1e293b', fontWeight: 700, fontSize: '14px' }}
+                        labelStyle={{ color: '#64748b', fontSize: '11px', fontWeight: 600, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}
                     />
                     <Area
                         type="monotone"
                         dataKey="value"
-                        stroke="#3b82f6"
-                        strokeWidth={4}
+                        stroke="#3B82F6"
+                        strokeWidth={3}
                         fillOpacity={1}
                         fill="url(#revenueGradient)"
-                        animationDuration={1500}
+                        animationDuration={2000}
                     />
                 </AreaChart>
             </ResponsiveContainer>
@@ -88,45 +92,44 @@ const RevenueChart = ({ data }: { data: any[] }) => (
     </div>
 );
 
-export default function QuickView() {
+interface QuickViewProps {
+    onViewAllStaff?: () => void;
+}
+
+export default function QuickView({ onViewAllStaff }: QuickViewProps) {
+    const stats = [
+        { label: 'Total Residents', value: '850', trend: '+2% this month', icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
+        { label: 'Occupancy Rate', value: '95%', trend: '+0.5% this month', icon: CheckCircle, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+        { label: 'Overdue Payment', value: '$12,450', trend: '-5 vs last month', icon: AlertCircle, color: 'text-rose-600', bg: 'bg-rose-50' },
+        { label: 'New Tenants', value: '14', trend: '+3 since yesterday', icon: UserPlus, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+    ];
+
     return (
         <div className="space-y-6">
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-zinc-100">
-                    <h3 className="text-zinc-500 font-medium text-sm mb-2">Total Residents</h3>
-                    <div className="flex items-baseline space-x-2">
-                        <span className="text-4xl font-bold text-zinc-900">850</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {stats.map((stat, i) => (
+                    <div key={i} className="group bg-white rounded-2xl border border-slate-200 p-5 hover:border-blue-200 hover:shadow-lg hover:shadow-slate-200/50 transition-all duration-300">
+                        <div className="flex justify-between items-start mb-4">
+                            <div className={`p-2.5 rounded-xl ${stat.bg} ${stat.color} group-hover:scale-110 transition-transform`}>
+                                <stat.icon className="w-5 h-5" />
+                            </div>
+                            <button className="text-slate-300 hover:text-slate-600 transition-colors">
+                                <MoreHorizontal className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <h3 className="text-slate-500 font-bold text-[11px] uppercase tracking-wider mb-1">{stat.label}</h3>
+                        <div className="flex items-baseline space-x-2">
+                            <span className="text-2xl font-black text-slate-900 tracking-tight">{stat.value}</span>
+                        </div>
+                        <p className={`text-[10px] font-bold mt-2 ${stat.trend.includes('+') ? 'text-emerald-500' : 'text-rose-500'}`}>
+                            {stat.trend}
+                        </p>
                     </div>
-                    <p className="text-green-500 text-xs font-semibold mt-2">+2% this month</p>
-                </div>
-
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-zinc-100">
-                    <h3 className="text-zinc-500 font-medium text-sm mb-2">Total Residents</h3>
-                    <div className="flex items-baseline space-x-2">
-                        <span className="text-4xl font-bold text-zinc-900">95%</span>
-                    </div>
-                    <p className="text-green-500 text-xs font-semibold mt-2">+0.5% this month</p>
-                </div>
-
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-zinc-100">
-                    <h3 className="text-zinc-500 font-medium text-sm mb-2">Overdue payment</h3>
-                    <div className="flex items-baseline space-x-2">
-                        <span className="text-4xl font-bold text-zinc-900">$12450</span>
-                    </div>
-                    <p className="text-red-500 text-xs font-semibold mt-2">-5 vs last month</p>
-                </div>
-
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-zinc-100">
-                    <h3 className="text-zinc-500 font-medium text-sm mb-2">Tenant</h3>
-                    <div className="flex items-baseline space-x-2">
-                        <span className="text-4xl font-bold text-zinc-900">14</span>
-                    </div>
-                    <p className="text-green-500 text-xs font-semibold mt-2">+3 since yesterday</p>
-                </div>
+                ))}
             </div>
 
-            {/* Main Content Info */}
+            {/* Main Content */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Chart */}
                 <RevenueChart data={data} />
@@ -134,73 +137,76 @@ export default function QuickView() {
                 {/* Side Panels */}
                 <div className="space-y-6">
                     {/* Maintenance Service Requests */}
-                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-zinc-100">
-                        <h3 className="text-zinc-700 font-semibold mb-6">Maintenance service request</h3>
-
-                        <div className="space-y-4">
-                            <div>
-                                <div className="flex justify-between text-sm mb-1">
-                                    <span className="font-semibold text-zinc-700">New</span>
-                                    <span className="font-semibold text-zinc-700">5</span>
-                                </div>
-                                <div className="w-full bg-zinc-100 rounded-full h-2">
-                                    <div className="bg-blue-500 h-2 rounded-full" style={{ width: '15%' }}></div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div className="flex justify-between text-sm mb-1">
-                                    <span className="font-semibold text-zinc-700">In Progress</span>
-                                    <span className="font-semibold text-zinc-700">9</span>
-                                </div>
-                                <div className="w-full bg-zinc-100 rounded-full h-2">
-                                    <div className="bg-orange-500 h-2 rounded-full" style={{ width: '35%' }}></div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div className="flex justify-between text-sm mb-1">
-                                    <span className="font-semibold text-zinc-700">Resolved</span>
-                                    <span className="font-semibold text-zinc-700">28</span>
-                                </div>
-                                <div className="w-full bg-zinc-100 rounded-full h-2">
-                                    <div className="bg-green-500 h-2 rounded-full" style={{ width: '80%' }}></div>
-                                </div>
+                    <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-slate-900 font-black text-sm uppercase tracking-wider">Maintenance Service</h3>
+                            <div className="bg-blue-50 text-blue-600 p-1.5 rounded-lg">
+                                <TrendingUp className="w-4 h-4" />
                             </div>
                         </div>
+
+                        <div className="space-y-6">
+                            {[
+                                { label: 'New Requests', count: 5, total: 42, color: 'bg-blue-500', pct: 15 },
+                                { label: 'In Progress', count: 9, total: 42, color: 'bg-amber-500', pct: 35 },
+                                { label: 'Resolved', count: 28, total: 42, color: 'bg-emerald-500', pct: 80 }
+                            ].map((item, i) => (
+                                <div key={i}>
+                                    <div className="flex justify-between text-xs mb-2">
+                                        <span className="font-bold text-slate-600">{item.label}</span>
+                                        <span className="font-black text-slate-900">{item.count} <span className="text-slate-400 font-bold">/ {item.total}</span></span>
+                                    </div>
+                                    <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                                        <div
+                                            className={`${item.color} h-full rounded-full transition-all duration-1000 ease-out`}
+                                            style={{ width: `${item.pct}%` }}
+                                        ></div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <button className="w-full mt-6 py-2.5 text-[11px] font-black uppercase tracking-widest text-slate-500 hover:text-blue-600 border border-slate-100 hover:border-blue-100 rounded-xl transition-all">
+                            Efficiency Report
+                        </button>
                     </div>
 
                     {/* Short Staff List */}
-                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-zinc-100">
+                    <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
                         <div className="flex justify-between items-center mb-6">
-                            <h3 className="text-zinc-700 font-semibold">Short staff list</h3>
-                            <button className="text-blue-500 text-xs font-semibold hover:underline">View all</button>
+                            <h3 className="text-slate-900 font-black text-sm uppercase tracking-wider">Active Staff</h3>
+                            <button
+                                onClick={onViewAllStaff}
+                                className="text-blue-600 text-[11px] font-black uppercase tracking-widest hover:underline flex items-center gap-1 group"
+                            >
+                                View All
+                                <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                            </button>
                         </div>
                         <div className="space-y-4">
                             {[
-                                { name: 'John Doe', role: 'Security', status: 'On Duty', color: 'bg-green-500' },
-                                { name: 'Sarah Smith', role: 'Maintenance', status: 'Break', color: 'bg-yellow-500' },
-                                { name: 'Mike Johnson', role: 'Cleaning', status: 'Off Duty', color: 'bg-zinc-300' }
+                                { name: 'John Doe', role: 'Security', status: 'On Duty', color: 'bg-emerald-500', initial: 'JD' },
+                                { name: 'Sarah Smith', role: 'Cleaning', status: 'Break', color: 'bg-amber-500', initial: 'SS' },
+                                { name: 'Mike Ross', role: 'Maintenance', status: 'Off Duty', color: 'bg-slate-300', initial: 'MR' }
                             ].map((staff, i) => (
-                                <div key={i} className="flex items-center justify-between group cursor-pointer hover:bg-zinc-50 p-2 -mx-2 rounded-xl transition-colors">
+                                <div key={i} className="flex items-center justify-between group cursor-pointer">
                                     <div className="flex items-center space-x-3">
-                                        <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-900 font-bold text-xs border border-zinc-200 group-hover:bg-white transition-colors">
-                                            {staff.name.charAt(0)}
+                                        <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-600 font-black text-xs group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                                            {staff.initial}
                                         </div>
                                         <div>
-                                            <p className="text-sm font-semibold text-zinc-900">{staff.name}</p>
-                                            <p className="text-xs text-zinc-500">{staff.role}</p>
+                                            <p className="text-sm font-black text-slate-900">{staff.name}</p>
+                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{staff.role}</p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center space-x-2">
-                                        <div className={`w-2 h-2 rounded-full ${staff.color}`}></div>
-                                        <span className="text-xs font-medium text-zinc-500">{staff.status}</span>
+                                    <div className="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-lg">
+                                        <div className={`w-1.5 h-1.5 rounded-full ${staff.color}`}></div>
+                                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-tight">{staff.status}</span>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
